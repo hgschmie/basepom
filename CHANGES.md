@@ -14,6 +14,7 @@ Every release of this project is potentially incompatible to the previous one ev
 ### Changed
 
 * Use the collecting manifest transformer to also add the main class to an executable jar. This is a workaround for a change in the shade plugin since 3.2.4.
+* downgraded release plugin to 2.5.3 (from 3.0.0-M1)
 
 ### Deprecated
 
