@@ -13,5 +13,8 @@ deploy:
 docs:
 	mvn -Pdocs clean install
 
+deploy-docs:
+	mvn -Pdocs clean deploy
+
 release:
 	mvn -Prelease clean release:clean release:prepare release:perform

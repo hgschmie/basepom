@@ -30,6 +30,11 @@
     </description>
 
     <properties>
+        <basepom.site.scm.skip-deploy>false</basepom.site.scm.skip-deploy>
+        <basepom.site.scm.url>scm:git:git@github.com:basepom/basepom.org.git</basepom.site.scm.url>
+        <basepom.site.scm.site-path>/</basepom.site.scm.site-path>
+        <!-- workaround for https://github.com/asciidoctor/asciidoctor-maven-plugin/issues/589 -->
+        <dep.plugin.site.version>3.12.1</dep.plugin.site.version>
         <dep.plugin.asciidoctor.version>2.2.2</dep.plugin.asciidoctor.version>
     </properties>
 
@@ -55,37 +60,41 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.asciidoctor</groupId>
-                <artifactId>asciidoctor-maven-plugin</artifactId>
-                <version>${dep.plugin.asciidoctor.version}</version>
-                <executions>
-                    <execution>
-                        <id>output-html</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>process-asciidoc</goal>
-                        </goals>
-                    </execution>
-                </executions>
-
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
                 <configuration>
-                    <sourceDirectory>src/adoc</sourceDirectory>
-                    <sourceDocumentName>index.adoc</sourceDocumentName>
-                    <backend>html5</backend>
-                    <logHandler>
-                        <failIf>
-                            <severity>WARN</severity>
-                        </failIf>
-                    </logHandler>
-                    <attributes>
-                        <attribute-missing>warn</attribute-missing>
-                        <project_version>${project.version}</project_version>
-                        <revnumber>${project.version}</revnumber>
-                        <revdate>${doc.timestamp}</revdate>
-                        <docdatetime>${doc.timestamp}</docdatetime>
-                        <source-highlighter>coderay</source-highlighter>
-                    </attributes>
+                    <generateReports>false</generateReports>
+                    <generateSitemap>true</generateSitemap>
+                    <asciidoc>
+                        <!-- Optional site-wide AsciiDoc attributes -->
+                        <attributes>
+                            <icons>font</icons>
+                            <attribute-missing>warn</attribute-missing>
+                            <imagesdir>${project.reporting.outputDirectory}/images</imagesdir>
+                            <source-highlighter>coderay</source-highlighter>
+
+                            <project_version>${project.version}</project_version>
+                            <revnumber>${project.version}</revnumber>
+                            <revdate>${doc.timestamp}</revdate>
+                            <docdatetime>${doc.timestamp}</docdatetime>
+                        </attributes>
+                        <requires>
+                            <require>asciidoctor-diagram</require>
+                        </requires>
+                    </asciidoc>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.asciidoctor</groupId>
+                        <artifactId>asciidoctor-maven-plugin</artifactId>
+                        <version>${dep.plugin.asciidoctor.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.asciidoctor</groupId>
+                        <artifactId>asciidoctorj-diagram</artifactId>
+                        <version>2.2.3</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
