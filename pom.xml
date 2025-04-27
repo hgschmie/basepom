@@ -163,6 +163,10 @@
                 <module>docs</module>
             </modules>
 
+            <properties>
+                <basepom.release.profiles>basepom.oss-release</basepom.release.profiles>
+            </properties>
+
             <build>
                 <pluginManagement>
                     <plugins>
